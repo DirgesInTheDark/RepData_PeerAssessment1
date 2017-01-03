@@ -1,28 +1,22 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 
-```{r preprocessing, echo = TRUE}
 
+```r
 ##Loads the data
 activity <- read.csv("~/Desktop/Data Science Hopkins/Reproducible Research/RepData_PeerAssessment1/activity.csv", 
                      stringsAsFactors=FALSE)
 
 #Processing the data structure
 activity$date <- as.Date(activity$date)
-
 ```
 
 ## What is mean total number of steps taken per day?
 
-```{r mean_steps, echo = TRUE}
 
+```r
 #Calculates the total number of steps taken per day
 daily_steps <- tapply(activity$steps, 
                    activity$date, 
@@ -30,16 +24,24 @@ daily_steps <- tapply(activity$steps,
 
 #Histogram of total number of steps taken each day
 hist(daily_steps)
+```
 
+![](PA1_template_files/figure-html/mean_steps-1.png)<!-- -->
+
+```r
 #Summary displaying, quantiles, mean and median of 
 #total steps per day
 summary(daily_steps)
+```
 
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0    6778   10400    9354   12810   21190
 ```
 
 ## What is the average daily activity pattern?
-```{r dailyact}
 
+```r
 ##Mean steps per interval
 int_mean <- tapply(activity$steps, 
                    activity$interval, 
@@ -48,20 +50,35 @@ int_mean <- tapply(activity$steps,
 ##Line plot (time series), of the mean steps
 plot(y=int_mean, x= names(int_mean), ylab = "Mean Steps", 
      xlab = "Interval", type = "l", main = "Mean Steps per time")
+```
 
+![](PA1_template_files/figure-html/dailyact-1.png)<!-- -->
+
+```r
 ##Finds the 5 minute interval that, on average, 
 ##contains the maximum number of steps
 int_mean[which.max(int_mean)]
+```
 
+```
+##      835 
+## 206.1698
 ```
 The maximum average number of steps is 206, over the interval 8:35-8:40
 
 ## Imputing missing values
 
-```{r imputna}
+
+```r
 ##Calculates the total number of missing values in the data
 sum(is.na(activity$steps))
+```
 
+```
+## [1] 2304
+```
+
+```r
 ##Going to substitute all missing data with the mean of that
 ##time interval
 
@@ -79,11 +96,18 @@ daily_stepsEst <- tapply(df$steps,
 
 ##Histogram of total steps per day
 hist(daily_stepsEst)
+```
 
+![](PA1_template_files/figure-html/imputna-1.png)<!-- -->
+
+```r
 ##Displaying new summary statistics, including mean and median
 summary(daily_stepsEst)
+```
 
-
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##      41    9819   10770   10770   12810   21190
 ```
 
 
@@ -91,7 +115,8 @@ summary(daily_stepsEst)
 ## Are there differences in activity patterns between weekdays and weekends?
 
 
-```{r weekdiff}
+
+```r
 ##Creates a list to set day type
 list_week <- c("Weekend", rep("Weekday",5), "Weekend")
 names(list_week) <- c("Sunday", "Monday", "Tuesday", "Wednesday",
@@ -116,6 +141,7 @@ plot(names(mean_Wke), mean_Wkd, ylim = c(0,250),
 plot(names(mean_Wkd), mean_Wke, ylim = c(0,250), 
      ylab = "Weekends", type = "l")
 title(main = "Mean Split by Weekday/Weekend", xlab = "Interval", outer = TRUE)
-
 ```
+
+![](PA1_template_files/figure-html/weekdiff-1.png)<!-- -->
 
