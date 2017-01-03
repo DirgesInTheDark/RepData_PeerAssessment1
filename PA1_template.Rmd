@@ -111,11 +111,11 @@ mean_Wke <- tapply(df$steps[df$daytype == "Weekend"],
 
 ##Panel plot of times series of mean for both weekends and weekdays
 par(mfrow = c(2,1), mar = c(0,3,1,1) + 0.1 , oma = c(4,1,1,1))
-plot(names(mean_Wke), mean_Wkd, ylim = c(0,250), 
-     ylab = "Weekdays", type = "l", xaxt = "n")
-plot(names(mean_Wkd), mean_Wke, ylim = c(0,250), 
-     ylab = "Weekends", type = "l")
-title(main = "Mean Split by Weekday/Weekend", xlab = "Interval", outer = TRUE)
+plot(names(mean_Wke), mean_Wkd, ylim = c(0,250), main = "Weekday",
+     ylab = "Number of steps", type = "l", xaxt = "n")
+plot(names(mean_Wkd), mean_Wke, ylim = c(0,250),main = "Weekend", 
+     ylab = "Number of steps", type = "l")
+title(xlab = "Interval", outer = TRUE)
 
 ```
 
